@@ -16,15 +16,23 @@ st.set_page_config(
 # Load the saved model
 @st.cache_resource
 def load_model():
-    with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    return model
+    try:
+        with open('model.pkl', 'rb') as f:
+            model = pickle.load(f)
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        return None
 
 # Load the dataset
 @st.cache_data
 def load_data():
-    df = pd.read_csv('data/diabetes.csv')
-    return df
+    try:
+        df = pd.read_csv('data/diabetes.csv')
+        return df
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)}")
+        return None
 
 # Load model and data
 try:
